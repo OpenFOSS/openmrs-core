@@ -298,8 +298,7 @@ public class ProviderServiceImpl extends BaseOpenmrsService implements ProviderS
 	@Override
 	public Provider createProviderFromUser(User user) {
 		Provider p = new Provider();
-		System.out.println(Context.getProviderService().getProvidersByPerson(user.getPerson()));
-		if (user.getPerson() == null) {
+		if (user == null || user.getPerson() == null) {
 			throw new RuntimeException("User can not be null");
 		} else if (Context.getProviderService().getProvidersByPerson(user.getPerson()).isEmpty()) {
 			p.setPerson(user.getPerson());
@@ -307,5 +306,5 @@ public class ProviderServiceImpl extends BaseOpenmrsService implements ProviderS
 			throw new RuntimeException("Unable to create Provider from user");
 		}
 		return Context.getProviderService().saveProvider(p);
-	}	
+	}
 }
