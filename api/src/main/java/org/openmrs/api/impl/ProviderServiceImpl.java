@@ -299,7 +299,7 @@ public class ProviderServiceImpl extends BaseOpenmrsService implements ProviderS
 	public Provider createProviderFromUser(User user) {
 		Provider p = new Provider();
 		System.out.println(Context.getProviderService().getProvidersByPerson(user.getPerson()));
-		if (user == null && user.getPerson() == null) {
+		if (user.getPerson() == null) {
 			throw new RuntimeException("User can not be null");
 		} else if (Context.getProviderService().getProvidersByPerson(user.getPerson()).isEmpty()) {
 			p.setPerson(user.getPerson());
