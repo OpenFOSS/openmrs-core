@@ -266,12 +266,12 @@ public class Cohort extends BaseChangeableOpenmrsData {
 	 */
 	public static Cohort intersect(Cohort a, Cohort b) {
 		Cohort ret = new Cohort();
+		
 		ret.setName("(" + (a == null ? "NULL" : a.getName()) + " * " + (b == null ? "NULL" : b.getName()) + ")");
 		if (a != null && b != null) {
 			Collection<CohortMembership> retMembers = ret.getMemberships();
-		//	ret.getMemberships().addAll(a.getMemberships());
-		//	ret.getMemberships().retainAll(b.getMemberships());
 
+			
 			/*
 			 * Remove duplicate Patient IDs from the intersection 
 			 */
@@ -292,13 +292,9 @@ public class Cohort extends BaseChangeableOpenmrsData {
 								retainedMember.setUuid(cm.getUuid());
 								retMembers.add(retainedMember);
 							}
-					}
-					
-				}
-			}
-			
-			
-			
+						}
+				} 
+			} 
 		}
 		return ret;
 	}
