@@ -266,13 +266,40 @@ public class Cohort extends BaseChangeableOpenmrsData {
 	 */
 	public static Cohort intersect(Cohort a, Cohort b) {
 		Cohort ret = new Cohort();
+		
 		ret.setName("(" + (a == null ? "NULL" : a.getName()) + " * " + (b == null ? "NULL" : b.getName()) + ")");
 		if (a != null && b != null) {
-			ret.getMemberships().addAll(a.getMemberships());
-			ret.getMemberships().retainAll(b.getMemberships());
+			Collection<CohortMembership> retMembers = ret.getMemberships();
+
+			
+			/*
+			 * Remove duplicate Patient IDs from the intersection 
+			 */
+			
+			for (CohortMembership cm: a.getMemberships()) {
+				for (CohortMembership cm2: b.getMemberships()) {
+						if(cm2.getPatientId().equals(cm.getPatientId())){
+							boolean idExists = false;
+							for(CohortMembership cmret: retMembers){
+								if (cmret.getPatientId().equals(cm.getPatientId())){
+									idExists = true;
+								}
+							}
+							if(!idExists) {
+								CohortMembership retainedMember = new CohortMembership(cm.getPatientId());
+								retainedMember.setEndDate(cm.getEndDate());
+								retainedMember.setVoided(cm.getVoided());
+								retainedMember.setUuid(cm.getUuid());
+								retMembers.add(retainedMember);
+							}
+						}
+				} 
+			} 
 		}
 		return ret;
 	}
+	
+	
 	
 	/**
 	 * Subtracts a cohort from a cohort
