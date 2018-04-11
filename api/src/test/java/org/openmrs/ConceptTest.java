@@ -35,7 +35,6 @@ import org.openmrs.test.BaseContextSensitiveTest;
  * Behavior-driven tests of the Concept class.
  */
 public class ConceptTest extends BaseContextSensitiveTest {
-<<<<<<< HEAD
 	protected static final String CONCEPT_XML_DATASET_PACKAGE_PATH = "org/openmrs/api/include/ConceptTest.xml";
 
 	private ConceptService service;
@@ -45,18 +44,6 @@ public class ConceptTest extends BaseContextSensitiveTest {
 		service = Context.getConceptService();
 		executeDataSet(CONCEPT_XML_DATASET_PACKAGE_PATH);
 	}
-||||||| merged common ancestors
-=======
-	protected static final String CONCEPT_XML_DATASET_PACKAGE_PATH = "org/openmrs/api/include/ConceptTest.xml";
-
-	private ConceptService service;
-
-	@Before
-	public void before() throws Exception {
-		service = Context.getConceptService(); //Context.getProviderService();
-		executeDataSet(CONCEPT_XML_DATASET_PACKAGE_PATH);
-	}
->>>>>>> f01b7f497aef426111e2a4a1afcff1ff4e8dad12
 	
 	/**
 	 * When asked for a collection of compatible names, the returned collection should not include
