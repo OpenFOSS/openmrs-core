@@ -17,6 +17,7 @@ import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.ProviderAttributeType;
+import org.openmrs.User;
 import org.openmrs.api.APIException;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
@@ -292,5 +293,18 @@ public class ProviderServiceImpl extends BaseOpenmrsService implements ProviderS
 	public Provider getUnknownProvider() {
 		return getProviderByUuid(Context.getAdministrationService().getGlobalProperty(
 		    OpenmrsConstants.GP_UNKNOWN_PROVIDER_UUID));
+	}
+
+	@Override
+	public Provider createProviderFromUser(User user) {
+		Provider p = new Provider();
+		if (user == null || user.getPerson() == null) {
+			throw new RuntimeException("User can not be null");
+		} else if (Context.getProviderService().getProvidersByPerson(user.getPerson()).isEmpty()) {
+			p.setPerson(user.getPerson());
+		} else {
+			throw new RuntimeException("Unable to create Provider from user");
+		}
+		return Context.getProviderService().saveProvider(p);
 	}
 }

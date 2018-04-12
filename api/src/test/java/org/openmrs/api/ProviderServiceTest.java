@@ -33,6 +33,7 @@ import org.openmrs.PersonName;
 import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.ProviderAttributeType;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.datatype.FreeTextDatatype;
 import org.openmrs.test.BaseContextSensitiveTest;
@@ -519,5 +520,23 @@ public class ProviderServiceTest extends BaseContextSensitiveTest {
 		person.setNames(personNames);
 		return person;
 	}
+
+	@Test
+	public void createProviderFromUser_shouldGetUserAndCreateProvider() {
+		User u = Context.getUserService().getUser(19901);
+		Assert.assertNotNull(Context.getPersonService().getPerson(19901));
+		Assert.assertNotNull(Context.getPersonService().getPersonName(19901));
+		Assert.assertNotNull(u);
+		Assert.assertNotNull(Context.getProviderService().createProviderFromUser(u));
+	}
 	
+	@Test
+	public void createProviderFromUser_shouldThrowErrorsWhenUserIsNull() {
+		try {
+			User u = Context.getUserService().getUser(1337);
+			Context.getProviderService().createProviderFromUser(u);
+		} catch (RuntimeException e) {
+			Assert.assertEquals("User can not be null", e.getMessage());
+		}
+	}
 }
